@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Labeler</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2">
+      <path d="M12 2L2 20h20L12 2z"/>
+    </svg>
+    <h1>Start Labeler</h1>
+    <div class="subtitle">Training-set labeler — all labels are supervision, never features</div>
+    <div class="spacer"></div>
+    <div id="stats">
+      <span>Total: <b id="stat-total">0</b></span>
+      <span style="color:#3fb950">Confirmed: <b id="stat-confirmed">0</b></span>
+      <span>Pending: <b id="stat-pending">0</b></span>
+      <span style="color:#f85149">Discarded: <b id="stat-discarded">0</b></span>
+    </div>
+    <div id="save-status" class="save-status">saved</div>
+    <a id="review-link" href="review.html" title="Open the full review UI">Full review →</a>
+  </div>
+
+  <div id="main">
+    <div id="list-panel">
+      <div id="list-controls">
+        <label>Filter:
+          <select id="filter-status">
+            <option value="all" selected>All</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="discarded">Discarded</option>
+          </select>
+        </label>
+        <label>Sort:
+          <select id="sort-by">
+            <option value="date" selected>Date</option>
+            <option value="confidence">Confidence</option>
+          </select>
+        </label>
+      </div>
+      <div id="start-list"></div>
+    </div>
+
+    <div id="map-panel">
+      <div id="map-empty">← Select a candidate from the list.</div>
+      <div id="map-content" style="display:none;">
+        <div id="detail-header">
+          <h2 id="detail-title"></h2>
+          <div id="detail-subtitle"></div>
+          <div class="spacer"></div>
+          <div class="action-btns">
+            <button id="btn-confirm" class="btn btn-confirm">✓ Confirm (c)</button>
+            <button id="btn-discard" class="btn btn-discard">✗ Discard (x)</button>
+            <button id="btn-pending" class="btn">Pending</button>
+          </div>
+        </div>
+
+        <div id="map-row">
+          <div id="map"></div>
+          <aside id="info-panel">
+            <h3>Inferred line <span class="tag-used">features use this</span></h3>
+            <div id="inferred-line-info" class="kv">—</div>
+            <h3>Your line correction <span class="tag-sup">supervision only</span></h3>
+            <div id="override-line-info" class="kv">(none — press <kbd>u</kbd> to copy the inferred line, then drag endpoints to ground truth)</div>
+            <h3>Course marks <span class="tag-sup">supervision only</span></h3>
+            <div id="marks-info" class="kv">(press <kbd>w</kbd> / <kbd>l</kbd> to drop windward / leeward — not yet used by the detector)</div>
+            <h3>Features</h3>
+            <div id="features-table" class="features-table">—</div>
+          </aside>
+        </div>
+
+        <div id="scrubber-row">
+          <button id="play-btn" class="btn play-btn" title="Play / Pause (space)">▶</button>
+          <span id="scrubber-time" class="scrubber-time">0 s</span>
+          <input type="range" id="scrubber" min="-300" max="600" step="1" value="0">
+          <span id="playback-rate" class="scrubber-legend">1.0&times;</span>
+          <span class="scrubber-legend">&minus;300 s … gun … +600 s</span>
+        </div>
+
+        <div id="bottom-row">
+        <div id="legend">
+          <div class="legend-title">Playback</div>
+          <div class="legend-row"><span class="legend-keys"><kbd>space</kbd></span><span>play / pause</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>←</kbd> / <kbd>→</kbd></span><span>step one frame</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>↑</kbd> / <kbd>↓</kbd></span><span>skip ±5 s</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>d</kbd> / <kbd>s</kbd></span><span>speed up / slow down (1.1× / 0.9×)</span></div>
+
+          <div class="legend-title" style="margin-top:8px;">Labeling</div>
+          <div class="legend-row"><span class="legend-keys"><kbd>c</kbd></span><span>confirm start</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>x</kbd></span><span>discard start</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>j</kbd> / <kbd>k</kbd></span><span>next / previous candidate</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>p</kbd> / <kbd>o</kbd></span><span>drop <b>p</b>in / c<b>o</b>mmittee at map center</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>w</kbd> / <kbd>l</kbd></span><span>drop <b>w</b>indward / <b>l</b>eeward mark at map center</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>Shift</kbd>+<kbd>w</kbd></span><span>remove windward mark</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>Shift</kbd>+<kbd>l</kbd></span><span>remove leeward mark</span></div>
+          <div class="legend-row"><span class="legend-keys">right-click</span><span>remove that specific mark on the map</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>u</kbd></span><span>copy inferred line to your override</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>r</kbd></span><span>clear your override line</span></div>
+          <div class="legend-row"><span class="legend-keys"><kbd>Shift</kbd>+<kbd>r</kbd></span><span>clear both course marks</span></div>
+
+          <div class="legend-title" style="margin-top:8px;">Map</div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch" style="background:#d73a49"></span></span><span>prestart track</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch" style="background:#2188ff"></span></span><span>post-start beat</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch-dashed"></span></span><span>inferred start line</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch" style="background:#f0883e"></span></span><span>your override line (draggable P / C)</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch-square" style="background:#f85149"></span></span><span>windward mark</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch-square" style="background:#3fb950"></span></span><span>leeward mark</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch-dot" style="background:#f0883e"></span></span><span>boat at current scrubber time</span></div>
+          <div class="legend-row"><span class="legend-keys"><span class="swatch-dashed" style="border-top-color:#d29922"></span></span><span>wind direction (TWD)</span></div>
+        </div>
+        <div id="video-corner">
+          <div id="video-mount"></div>
+          <div id="video-message" style="display:none;">—</div>
+        </div>
+        </div><!-- /bottom-row -->
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

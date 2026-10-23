@@ -1,0 +1,46 @@
+{
+  "name": "regattaview",
+  "version": "1.0.0",
+  "description": "RegattaView frontend - 360 video race replay",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:renderer": "node tests/renderer-browser.cjs",
+    "build": "webpack --mode=production",
+    "stage": "npm run build && rsync -a --delete --exclude=*.map dist/ /Users/viola/www/sailview/",
+    "deploy": "npm run stage && (cd .. && ./aws_sync.sh)",
+    "start": "node dev-server.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.72.0",
+    "@typescript-eslint/parser": "^8.72.0",
+    "copy-webpack-plugin": "^14.0.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.39.5",
+    "eslint-config-google": "^0.14.0",
+    "globals": "^16.5.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
+    "playwright-core": "^1.61.0",
+    "source-map-loader": "^5.0.0",
+    "typescript": "^5.9.3",
+    "webpack": "^5.112.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@bokeh/bokehjs": "^2.4.3",
+    "gl-matrix": "^3.3.0",
+    "leaflet": "^1.7.1",
+    "mithril": "^2.0.4",
+    "twgl.js": "^4.19.1"
+  },
+  "engines": {
+    "node": "^22.15.0 || >=24"
+  },
+  "overrides": {
+    "@xmldom/xmldom": "^0.9.12"
+  }
+}

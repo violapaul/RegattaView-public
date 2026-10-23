@@ -1,0 +1,47 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "SignedReads",
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "arn:aws:s3:::regattaanalysis/www/Insta360/*",
+                "arn:aws:s3:::regattaanalysis/www/Logs/*",
+                "arn:aws:s3:::regattaanalysis/www/FullLogs/*",
+                "arn:aws:s3:::regattaanalysis/www/Analyze/*",
+                "arn:aws:s3:::regattaanalysis/www/Comments/*",
+                "arn:aws:s3:::regattaanalysis/www/SeattleTiles/*",
+                "arn:aws:s3:::regattaanalysis/auth/allowlist.json",
+                "arn:aws:s3:::regattaanalysis/auth/google-jwks.json"
+            ]
+        },
+        {
+            "Sid": "ValidatedWrites",
+            "Effect": "Allow",
+            "Action": "s3:PutObject",
+            "Resource": [
+                "arn:aws:s3:::regattaanalysis/www/Analyze/events_edits.json",
+                "arn:aws:s3:::regattaanalysis/www/Comments/*/comments.json",
+                "arn:aws:s3:::regattaanalysis/www/Insta360/curated.json",
+                "arn:aws:s3:::montlakeupload/*",
+                "arn:aws:s3:::regattaanalysis/www/Comments/index.json"
+            ]
+        },
+        {
+            "Sid": "CheckDocumentExistence",
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::regattaanalysis",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "www/Comments/*",
+                        "www/Insta360/curated.json",
+                        "www/Analyze/events_edits.json"
+                    ]
+                }
+            }
+        }
+    ]
+}

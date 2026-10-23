@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+**/xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+**/xcshareddata/swiftpm/
+
+# Backup/copy files
+*copy*.plist
+*copy-Info.plist
+
+# Test duplicates
+TestCWDup/
+UdpTestFoo/
+
+# Archives
+*.xcarchive
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Node (if any)
+node_modules/
+
+# VS Code
+.vscode/

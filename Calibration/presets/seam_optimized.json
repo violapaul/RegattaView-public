@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "name": "seam-optimized-seam_optimized",
+  "calibration": {
+    "fov": 180.0,
+    "front": {
+      "center": [
+        0.25,
+        0.5
+      ],
+      "scale": [
+        0.5,
+        1.0
+      ],
+      "euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "back": {
+      "center": [
+        0.75,
+        0.5
+      ],
+      "scale": [
+        -0.5,
+        1.0
+      ],
+      "euler": [
+        0.012210774794254019,
+        0.007309854108885561,
+        -0.013305009899508988
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "projection": {
+      "aperture": 0.296,
+      "viewCorrection": -0.2
+    },
+    "seam": {
+      "centerYaw": 0.0,
+      "width": 0.1,
+      "feather": 1.0
+    }
+  },
+  "fitDiagnostics": {
+    "mode": "photometric_seam",
+    "seedPreset": "Src/src/assets/calibration/legacy_guess.json",
+    "numFrames": 10,
+    "overlapRays": 4800,
+    "initialLoss": 0.393706,
+    "finalLoss": 0.344554,
+    "converged": true,
+    "functionEvaluations": 445,
+    "initialBackEulerDeg": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "finalBackEulerDeg": [
+      0.6996,
+      0.4188,
+      -0.7623
+    ],
+    "initialSeamCenterYawDeg": 0.0,
+    "finalSeamCenterYawDeg": 0.0
+  }
+}

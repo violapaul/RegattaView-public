@@ -1,0 +1,84 @@
+version: 1
+ego:
+  name: Peer Gynt
+  sail_numbers: ["235"]
+  mmsi: "338204092"
+fleets:
+  - id: j105
+    label: J/105
+    notes:
+      - "AIS names are matched by exact normalized aliases, not fuzzy matching."
+      - "Do not alias BLUE to Bluelight; BLUE has been observed as a different vessel."
+    boats:
+      - name: Creative
+        sail_numbers: ["51911", "422"]
+        aliases: ["Creative"]
+        notes: "USCG doc #51911 and sail #422 fold into one boat."
+      - name: Puff
+        sail_numbers: ["115"]
+        aliases: ["Puff"]
+      - name: Insubordination
+        sail_numbers: ["212"]
+        aliases: ["Insubordination", "Last Tango", "Here & Now"]
+        notes: "Successive names/owners for sail #212."
+      - name: More Jubilee
+        sail_numbers: ["114"]
+        aliases: ["More Jubilee", "More"]
+      - name: Corvo 105
+        sail_numbers: ["475"]
+        aliases: ["Corvo 105", "Corvo 106"]
+      - name: Paladin
+        sail_numbers: ["412"]
+        aliases: ["Paladin"]
+      - name: Avalanche
+        sail_numbers: ["495"]
+        aliases: ["Avalanche"]
+      - name: Liftoff
+        sail_numbers: ["403", "404"]
+        aliases: ["Liftoff"]
+        notes: "Sail 404 is treated as an OCR typo for 403."
+      - name: Liftoff 621
+        sail_numbers: ["621"]
+        aliases: ["Liftoff"]
+        notes: "Kept separate from Liftoff 403/404; likely a different hull."
+      - name: Moose Unknown
+        sail_numbers: ["89"]
+        aliases: ["Moose Unknown", "Moose"]
+      - name: Moon Glow
+        sail_numbers: ["525"]
+        aliases: ["Moon Glow"]
+      - name: Panic
+        sail_numbers: ["482"]
+        aliases: ["Panic"]
+      - name: El Gato
+        sail_numbers: ["446"]
+        aliases: ["El Gato"]
+      - name: Mazu
+        sail_numbers: ["174"]
+        aliases: ["Mazu", "Dulcinea"]
+        notes: "Dulcinea and Mazu are the same hull in the results list."
+      - name: Jaded
+        sail_numbers: ["299"]
+        aliases: ["Jaded"]
+      - name: Cyrano
+        sail_numbers: ["253"]
+        aliases: ["Cyrano"]
+      - name: Double Trouble
+        sail_numbers: ["272"]
+        aliases: ["Double Trouble", "Delirium", "Debonair"]
+        notes: "Successive names/owners for sail #272."
+      - name: Bluelight
+        sail_numbers: ["229"]
+        aliases: ["Bluelight"]
+      - name: Asterix
+        sail_numbers: ["519"]
+        aliases: ["Asterix"]
+      - name: Counterpoint
+        sail_numbers: ["32"]
+        aliases: ["Counterpoint"]
+      - name: Kinetic
+        sail_numbers: ["440"]
+        aliases: ["Kinetic"]
+      - name: Troublemaker
+        sail_numbers: ["604"]
+        aliases: ["Troublemaker"]

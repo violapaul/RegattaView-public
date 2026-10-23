@@ -1,0 +1,7 @@
+storage/raw/
+storage/data/
+exports/*
+!exports/.gitkeep
+__pycache__/
+*.pyc
+.pytest_cache/

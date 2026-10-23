@@ -1,0 +1,1221 @@
+:root {
+  --color-bg: rgba(0, 0, 0, 0.85);
+  --color-bg-light: rgba(255, 255, 255, 0.1);
+  --color-bg-hover: rgba(255, 255, 255, 0.25);
+  --color-bg-active: rgba(255, 255, 255, 0.35);
+  --color-text: #fff;
+  --color-text-shadow: black;
+  --color-accent: rgb(255, 8, 8);
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+}
+
+body {
+  margin: 0;
+  font-family: monospace;
+  position: relative;
+}
+
+@font-face {
+    font-family: 'HeydingsControlsRegular';
+    src: url('../assets/fonts/heydings_controls-webfont.eot');
+    src: url('../assets/fonts/heydings_controls-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../assets/fonts/heydings_controls-webfont.woff') format('woff'),
+         url('../assets/fonts/heydings_controls-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.info {
+  width: 320px;
+  font-size: 23px;
+    font-family: monospace;
+    text-shadow: 1px 1px 0px black;
+    color: white;
+    flex: 5;
+    position: absolute;
+    top: 10px;
+    right: 30px;    
+    text-align: left;
+    z-index: 2;
+}
+
+
+.comment {
+  font-size: 23px;
+  font-family: monospace;
+  text-shadow: 1px 1px 0px black;
+  color: white;
+}
+
+div.comment {
+  width: min(600px, calc(100vw - 32px));
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+#displayComment {
+  bottom: 100px;
+}
+
+#inputComment {
+  top: 50%;
+}
+
+textarea.comment {
+  position: relative;
+  background-color:rgba(255, 255, 255, 0.3);
+  height: 80%;
+  width: 100%;
+}
+
+
+.doc {
+  font-size: 18px;
+  font-family: monospace;
+  text-shadow: 1px 1px 2px black;
+  color: white;
+}
+
+div.doc {
+  width: 600px;
+  position: absolute;
+  /* Centering and bottom positioning removed, handled by #docDiv now */
+  /* bottom: 100px; */
+  /* left: 50%; */
+  /* margin-left: -300px; */
+  /* z-index: 2; */ /* z-index will be set specifically for #docDiv */
+}
+
+#docDiv {
+  position: fixed; /* Changed from absolute to fixed */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(70vw, calc(100vw - 32px));
+  height: min(70dvh, calc(100dvh - 32px));
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: block;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.doc-content {
+  color: white;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  text-shadow: 1px 1px 2px black;
+  line-height: 1.5;
+}
+
+.doc-content h3 {
+  margin: 1.2em 0 0.4em;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8cf;
+}
+
+.doc-content p {
+  margin: 0.4em 0;
+}
+
+.doc-hint {
+  text-align: right;
+  opacity: 0.6;
+  font-size: 0.85em;
+  margin-top: 0;
+}
+
+.doc-keys {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.doc-keys td {
+  padding: 4px 8px;
+  vertical-align: top;
+}
+
+.doc-keys td:first-child {
+  white-space: nowrap;
+  width: 1%;
+  padding-right: 20px;
+}
+
+.doc-keys kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 0.9em;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+/* Next-video end-of-clip popup */
+#nextVideoOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+#nextVideoDialog {
+  background: rgba(20, 20, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 28px 36px;
+  text-align: center;
+  width: min(420px, calc(100vw - 32px));
+  max-height: 85dvh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  text-shadow: 1px 1px 2px black;
+}
+
+#nextVideoMessage {
+  font-size: 1.1em;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+
+#nextVideoButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+#nextVideoContinue,
+#nextVideoPause {
+  padding: 8px 24px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+/* Away / auto-pause overlay (shown when window loses focus or tab is hidden) */
+#awayOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none; /* never block clicks; auto-dismisses on return */
+}
+
+#awayDialog {
+  background: rgba(20, 20, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 22px 32px;
+  text-align: center;
+  width: min(380px, calc(100vw - 32px));
+  box-sizing: border-box;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  text-shadow: 1px 1px 2px black;
+}
+
+#awayMessage {
+  font-size: 1.15em;
+  margin: 0 0 8px;
+}
+
+#awaySub {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+#nextVideoContinue {
+  background: rgba(100, 180, 255, 0.25);
+  border-color: rgba(100, 180, 255, 0.6);
+}
+
+#nextVideoContinue:hover {
+  background: rgba(100, 180, 255, 0.45);
+}
+
+.data {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  text-align: left;
+  z-index: 2;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.strip {
+  position: static;
+  width: 70%;
+  right: 0px;
+  text-align: right;
+}
+
+.map_class {
+    width: 250px;
+    height: 250px;
+    text-align: left;
+    z-index: 2;
+    border-style: solid;
+    border-width: 1px;
+}
+
+
+.data_value {
+    position: relative;
+    text-align: right;
+    width: 80px;
+}
+
+
+.sparkline {
+  position: absolute;
+  right: 0;
+  top: 0;
+  stroke: rgb(22, 20, 20);
+  fill: rgba(255, 255, 255, .3);
+  width: 70%;
+  height: 100%;
+}
+
+.data-select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: monospace;
+  font-size: 23px;
+  text-shadow: 1px 1px 0px black;
+  cursor: pointer;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  max-width: 30%;
+}
+
+.data-select option {
+  background: rgba(0, 0, 0, 0.92);
+  color: white;
+  text-shadow: none;
+  font-size: 16px;
+}
+
+.data-remove {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: white;
+  font-size: 13px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 4;
+  transition: opacity 0.15s;
+}
+
+.data:hover .data-remove {
+  opacity: 0.9;
+}
+
+.data-add-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: center;
+  text-shadow: 1px 1px 0px black;
+  transition: background 0.15s, color 0.15s;
+}
+
+.data-add-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.boat {
+  stroke: red;
+}
+
+.startingLine {
+  stroke: green;
+}
+
+.markCircle {
+  stroke: blue;
+}
+
+.map {
+  position: relative;
+  right: 0;
+  top: 0;
+  stroke: white;
+  width: 100%;
+  height: 100%;
+}
+
+.map_spot {
+  stroke: rgb(255, 8, 8);
+}
+
+
+
+/* Modern controls bar */
+.controls-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg);
+  border-radius: var(--border-radius-lg);
+  z-index: 100;
+  max-width: calc(100vw - 32px);
+  backdrop-filter: blur(10px);
+  transition: opacity var(--transition-normal);
+}
+
+.controls-bar:hover {
+  opacity: 1;
+}
+
+.ctrl-btn {
+  background: var(--color-bg-light);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-size: 14px;
+  padding: var(--spacing-sm) 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  min-width: 40px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn:hover {
+  background: var(--color-bg-hover);
+}
+
+.ctrl-btn:active {
+  background: var(--color-bg-active);
+}
+
+.ctrl-btn:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.play-btn:before {
+  font-family: HeydingsControlsRegular;
+  font-size: 18px;
+  content: attr(data-icon);
+}
+
+.mute-btn:before {
+  font-family: HeydingsControlsRegular;
+  font-size: 16px;
+  content: attr(data-icon);
+}
+
+.mute-btn.muted:before {
+  content: ')';
+}
+
+.time-current, .time-duration {
+  color: #fff;
+  font-family: monospace;
+  font-size: 13px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.progress-bar::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.speed-btn {
+  font-weight: bold;
+  min-width: 45px;
+}
+
+.video-picker {
+  position: relative;
+  display: inline-flex;
+}
+
+.video-picker-toggle {
+  background: var(--color-bg-light);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-family: monospace;
+  font-size: 12px;
+  padding: 0 var(--spacing-sm);
+  cursor: pointer;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 200px;
+  transition: background var(--transition-fast);
+}
+
+.video-picker-toggle:hover {
+  background: var(--color-bg-hover);
+}
+
+.video-picker.open .video-picker-toggle {
+  background: var(--color-bg-active);
+}
+
+.video-picker-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.video-picker-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.video-picker-caret {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.video-picker-panel {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  width: 280px;
+  max-height: min(60vh, 480px);
+  overflow-y: auto;
+  background: var(--color-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  padding: 6px;
+  z-index: 50;
+}
+
+.video-picker-panel[hidden] {
+  display: none;
+}
+
+.video-picker-panel .vp-year,
+.video-picker-panel .vp-month {
+  margin: 0;
+}
+
+.video-picker-panel summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-family: monospace;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.video-picker-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.video-picker-panel summary:hover {
+  background: var(--color-bg-light);
+}
+
+.video-picker-panel summary::before {
+  content: '▸';
+  display: inline-block;
+  width: 14px;
+  font-size: 10px;
+  opacity: 0.7;
+  transition: transform var(--transition-fast);
+}
+
+.video-picker-panel details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.video-picker-panel .vp-name {
+  flex: 1;
+  margin-left: 4px;
+}
+
+.video-picker-panel .vp-count {
+  opacity: 0.55;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+.video-picker-panel .vp-year > summary {
+  font-weight: bold;
+  font-size: 14px;
+  position: sticky;
+  top: -6px;
+  z-index: 3;
+  /* Opaque so scrolled-past rows don't bleed through the translucent panel bg. */
+  background: #000;
+  margin: 0 -6px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.video-picker-panel .vp-month {
+  margin-left: 14px;
+}
+
+.video-picker-panel .vp-month > summary {
+  font-size: 12px;
+  position: sticky;
+  top: 24px;
+  z-index: 2;
+  background: #000;
+  margin-right: -6px;
+  padding-right: 14px;
+}
+
+.video-picker-panel .vp-day {
+  margin-left: 14px;
+}
+
+.video-picker-panel .vp-day > summary {
+  font-size: 12px;
+  opacity: 0.92;
+}
+
+.video-picker-panel .vp-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 42px);
+  margin-left: 42px;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-family: monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  text-align: left;
+}
+
+.video-picker-panel .vp-item:hover {
+  background: var(--color-bg-light);
+}
+
+.video-picker-panel .vp-item.selected {
+  background: var(--color-bg-active);
+}
+
+.video-picker-panel .vp-when {
+  white-space: nowrap;
+}
+
+.video-picker-panel .vp-log {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-left: 8px;
+}
+
+.progress-bar:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.fullscreen-btn {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Playlist controls */
+.playlist-controls {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.playlist-controls.active {
+  display: inline-flex;
+}
+
+.playlist-select,
+.snippet-select {
+  background: var(--color-bg-light);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-size: 12px;
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  height: 36px;
+}
+
+.playlist-select {
+  max-width: 180px;
+}
+
+.snippet-select {
+  max-width: 200px;
+}
+
+.playlist-select:focus-visible,
+.snippet-select:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.playlist-select option,
+.snippet-select option {
+  background: #222;
+  color: var(--color-text);
+}
+
+.playlist-select optgroup {
+  font-style: normal;
+  color: #8cf;
+}
+
+.snippet-prev,
+.snippet-next {
+  min-width: 30px;
+  font-weight: bold;
+}
+
+.playlist-controls .snippet-select,
+.playlist-controls .snippet-prev,
+.playlist-controls .snippet-next {
+  display: none;
+}
+
+.playlist-controls.active .snippet-select,
+.playlist-controls.active .snippet-prev,
+.playlist-controls.active .snippet-next {
+  display: flex;
+}
+
+/* Event marker overlay */
+#eventMarkerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+#eventMarkerDialog {
+  background: rgba(20, 20, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 24px 32px;
+  width: min(420px, calc(100vw - 32px));
+  max-height: 85dvh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  text-shadow: 1px 1px 2px black;
+}
+
+#eventMarkerDialog h3 {
+  margin: 0 0 16px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8cf;
+}
+
+.em-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.em-row label {
+  min-width: 70px;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.em-row select,
+.em-row input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.em-row select option {
+  background: #222;
+  color: white;
+}
+
+.em-row input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.em-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.em-buttons .ctrl-btn {
+  padding: 8px 24px;
+  font-size: 1em;
+}
+
+#emSave {
+  background: rgba(100, 180, 255, 0.25);
+  border-color: rgba(100, 180, 255, 0.6);
+}
+
+#emSave:hover {
+  background: rgba(100, 180, 255, 0.45);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .controls-bar {
+    min-width: auto;
+    width: calc(100vw - 20px);
+    padding: var(--spacing-sm);
+    gap: 4px;
+    bottom: 10px;
+  }
+  
+  .ctrl-btn {
+    padding: 6px 8px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .time-current, .time-duration {
+    font-size: 11px;
+    min-width: 40px;
+  }
+  
+  .video-picker-toggle {
+    max-width: 130px;
+    font-size: 10px;
+    height: 32px;
+  }
+
+  .video-picker-panel {
+    width: 240px;
+    right: 0;
+  }
+
+  .playlist-select {
+    max-width: 120px;
+    font-size: 10px;
+  }
+
+  .snippet-select {
+    max-width: 120px;
+    font-size: 10px;
+  }
+  
+  .speed-btn {
+    min-width: 35px;
+  }
+  
+  .info {
+    width: auto;
+    max-width: 200px;
+    font-size: 16px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hide power-user bits on the narrowest screens; keep fullscreen — that's
+   * the one control phone users reach for most. */
+  .speed-btn {
+    display: none;
+  }
+
+  .video-picker-toggle {
+    max-width: 110px;
+  }
+
+  .video-picker-panel {
+    width: 220px;
+  }
+
+  .playlist-select {
+    max-width: 80px;
+  }
+
+  .snippet-select {
+    display: none;
+  }
+
+  .time-duration {
+    display: none;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .controls-bar,
+  .ctrl-btn {
+    transition: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+#viewer-mount {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+#viewer-mount canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#header {
+    width: 100%;
+    text-align: left;
+    z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+ * Floating action buttons (mobile only)
+ *
+ * Minimal UX: by default only three translucent buttons are visible —
+ * play/pause, toggle-controls, toggle-instruments. Tapping a toggle reveals
+ * the corresponding panel, tap again to hide. Keeps the video at full
+ * viewport by default.
+ * -------------------------------------------------------------------------- */
+.mobile-fab {
+  display: none;
+}
+
+#cornerTime {
+  display: none;
+}
+
+.fab-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  color: var(--color-text);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background var(--transition-fast);
+}
+
+.fab-btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.fab-btn.active {
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+ * Mobile / touch layout
+ *
+ * Gated on (hover:none) AND (pointer:coarse) so touchscreen laptops (which
+ * report hover:hover, pointer:fine from their primary input) keep the desktop
+ * layout. Canvas owns the full viewport. Controls and instruments are hidden
+ * by default and revealed through the floating action buttons.
+ * -------------------------------------------------------------------------- */
+@media (hover: none) and (pointer: coarse) {
+  html, body {
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  #viewer-mount,
+  #viewer-mount canvas {
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  /* FABs are the only chrome visible by default */
+  .mobile-fab {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    position: fixed;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    left: 14px;
+    z-index: 101;
+  }
+
+  /* Hide the two panels by default; the FAB toggles a .mobile-visible class
+   * on each to reveal them. */
+  .info {
+    display: none;
+    top: calc(8px + env(safe-area-inset-top));
+    /* Safe-area inset clears the dynamic island when it's on the right side
+     * (landscape) so values don't slide under it. */
+    right: max(8px, env(safe-area-inset-right));
+    width: auto;
+    /* Just wide enough for "LABEL  ±NNN.NN" at 54px label + 24px value. */
+    max-width: min(180px, 55vw);
+    font-size: 14px;
+    padding: 6px 10px;
+    /* Transparent — text rides directly on the video, stays legible via
+     * text-shadow below. No blur, no box background. */
+    background: transparent;
+    max-height: calc(100dvh - 110px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 1px 1px 2px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Corner clock: always visible on mobile even when the instruments panel
+   * is hidden. Top-LEFT so it clears the dynamic island/notch (which sits
+   * at top-center in portrait and on the right side in the common landscape
+   * orientation). Safe-area inset covers left-side-notch rotation too. */
+  #cornerTime {
+    display: block;
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top));
+    left: max(12px, env(safe-area-inset-left));
+    font-family: monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 1px 1px 2px rgba(0, 0, 0, 0.9);
+    z-index: 50;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* Drop the DT row from the main instrument list on mobile — it's now in
+   * the corner. Desktop keeps it because desktop has the room. */
+  .info .data[data-channel="dt"] {
+    display: none;
+  }
+
+  .info.mobile-visible {
+    display: block;
+  }
+
+  .controls-bar {
+    display: none;
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .controls-bar.mobile-visible {
+    display: flex;
+  }
+
+  /* 44-px tap targets (Apple HIG minimum) */
+  .ctrl-btn {
+    min-width: 44px;
+    height: 44px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* The scrubber should eat remaining space on the row, not size itself */
+  .progress-bar {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+
+  /* Compact instrument rows: big value, small label, no sparkline. Mobile
+   * users want to read numbers at a glance; sparkline trend is the first
+   * thing to drop. */
+  .info .strip {
+    display: none;
+  }
+
+  .info .data {
+    height: auto;
+    min-height: 34px;
+    padding: 2px 6px;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 4px;
+    border-width: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Value column first (left, right-aligned in a fixed width so labels line
+   * up across rows), then label hugging the value on the right. */
+  .info .data_value {
+    order: 1;
+    flex: 0 0 auto;
+    width: 70px;
+    font-size: 24px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .info .data-select {
+    order: 2;
+    flex: 0 0 auto;
+    min-width: auto;
+    max-width: none;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Power-user remove button gets in the way and fingers trigger it
+   * accidentally; drop it on mobile. Desktop keeps the × as before. */
+  .info .data-remove {
+    display: none;
+  }
+
+  .info .data-add-btn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  /* Track map: shrink from its desktop 250 px so it fits the narrow
+   * instruments panel on phones. The SVG scales via CSS; internal viewBox
+   * math is unaffected. */
+  .info #map_div,
+  .info .map_class {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Landscape: same narrow panel, just a bit more vertical room. */
+  @media (orientation: landscape) {
+    .info {
+      max-height: calc(100dvh - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+
+    /* When instruments are revealed in landscape, the map breaks out of the
+     * info panel and overlays on the LEFT side of the viewport, so the user
+     * gets track context + instrument numbers simultaneously without either
+     * eating the canvas. */
+    .info.mobile-visible #map_div {
+      position: fixed;
+      top: calc(40px + env(safe-area-inset-top));
+      left: max(12px, env(safe-area-inset-left));
+      width: 180px;
+      height: 180px;
+      z-index: 3;
+    }
+  }
+}
+

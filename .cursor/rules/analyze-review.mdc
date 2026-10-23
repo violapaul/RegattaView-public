@@ -1,0 +1,14 @@
+---
+description: Analyze workflow and review-data conventions
+globs: Analyze/**/*
+alwaysApply: false
+---
+
+# Analyze Workflow
+
+- Use explicit `conda run -n sailing ...` commands for `Analyze/` scripts.
+- The review workflow runs in a single process: `cd Src && npm run start` on port 9000. The webpack dev server mirrors the prod S3 URL layout (`/Analyze/...`, `/Comments/...`) and handles PUTs to `/Analyze/events_edits.json`, `/Comments/index.json`, and `/Comments/<alias>/comments.json`.
+- `events_index.json`, `Analyze/Events/`, and `Analyze/Sessions/` are generated review data (read-only from the UI). Per-event reviewer edits live in `events_edits.json`, merged by `review.js` on load.
+- User comments live under `Comments/` (registry at `Comments/index.json`, per-alias files at `Comments/<alias>/comments.json`). Client-write-only; `aws_sync.sh` never touches them.
+- When changing review behavior, know which owner controls the behavior: detector (`find_starts.py`), edits overlay (`events_edits.json` written from `review.js`), or comments (`shared.js` comments API).
+- Distinguish observed detector behavior from hypotheses, and keep changes minimal unless a larger redesign is explicitly requested.

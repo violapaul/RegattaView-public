@@ -1,0 +1,16 @@
+---
+description: Core project rules mirrored from CLAUDE.md
+alwaysApply: true
+---
+
+# Core Project Rules
+
+Use `CLAUDE.md` as the detailed project guide. This rule is the always-on subset.
+
+- For nontrivial tasks, start with assumptions, likely relevant files/modules, and a minimal plan.
+- For coding work, separate diagnosis, proposed fix, tests/checks, and residual risks.
+- Verify facts with tools instead of inference: inspect files, search call sites, read configs, and run targeted checks.
+- Make the smallest correct change first; avoid unrelated refactors and do not invent APIs, file contents, results, or citations.
+- Before editing, identify invariants and preserve public interfaces unless asked to change them.
+- State assumptions and distinguish observed facts from hypotheses.
+- If something is not fully verified, say exactly what remains unverified.

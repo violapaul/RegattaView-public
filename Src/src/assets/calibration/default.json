@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "name": "Insta360 factory transfer (Studio-stitch fit) + distant-seam refinement",
+  "calibration": {
+    "fov": 180.0,
+    "front": {
+      "center": [
+        0.25023,
+        0.50182
+      ],
+      "scale": [
+        0.5,
+        1.0
+      ],
+      "euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distortion": [
+        0.077501,
+        -0.017516
+      ]
+    },
+    "back": {
+      "center": [
+        0.74989,
+        0.50119
+      ],
+      "scale": [
+        -0.50093,
+        1.00187
+      ],
+      "euler": [
+        -9e-05,
+        0.00028,
+        0.01213
+      ],
+      "distortion": [
+        0.07702,
+        -0.016975
+      ]
+    },
+    "projection": {
+      "aperture": 0.27072,
+      "viewCorrection": -0.2
+    },
+    "seam": {
+      "centerYaw": 0.0,
+      "width": 0.1,
+      "feather": 1.0
+    }
+  }
+}

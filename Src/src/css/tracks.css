@@ -1,0 +1,335 @@
+@import './ais.css';
+@import './instruments.css';
+
+#index-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+#index-link:hover { text-decoration: underline; }
+
+.view[hidden] { display: none !important; }
+
+#index-view {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+}
+
+#day-view {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#day-index-panel {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+#day-index-panel h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+#day-index-panel p {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+.day-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.day-card:hover {
+  border-color: var(--accent);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.day-title {
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.day-meta {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.day-counts {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
+}
+
+#filter-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#filter-actions label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#sort-boats {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #0d1117;
+  color: var(--text);
+}
+
+.fleet-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 214, 10, 0.65);
+  border-radius: 999px;
+  color: #ffd60a;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+
+/* Instrument overlay and media-control overrides for tracks.html.
+ * instruments.css positions .info absolute top:10 right:30 (sailview's
+ * full-screen layout) and .controls-bar fixed bottom-center. Tracks.html
+ * needs the panel pinned to the map pane (not the viewport) and the
+ * controls bar in-flow at the bottom of #map-pane, with the AIS-page
+ * surface colors. */
+
+/* The right-side column hosts the (ego) instrument panel and the
+ * fleet (per-AIS-boat) panel stacked vertically. Pinning the WRAPPER
+ * absolute lets each panel size to its content and the second one floats
+ * directly below the first without any JS height measurement. */
+#map-pane #right-stack {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 260px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: calc(100% - 80px);     /* leave room for controls-bar */
+  pointer-events: none;              /* let map see through any gap */
+}
+#map-pane #right-stack > .info { pointer-events: auto; }
+
+#map-pane #instrument-panel.info,
+#map-pane #fleet-panel.info {
+  position: static;                  /* override instruments.css `position: absolute` */
+  top: auto;
+  right: auto;
+  left: auto;
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  background: rgba(13, 17, 23, 0.55);
+  border: 1px solid rgba(48, 54, 61, 0.7);
+  border-radius: 8px;
+  padding: 6px;
+  backdrop-filter: blur(4px);
+}
+
+#map-pane #instrument-panel.info {
+  font-size: 18px;
+  flex: 0 1 auto;
+  max-height: 60vh;                  /* don't push fleet panel off-screen */
+}
+
+/* The "Our boat / N visible / N tracks" legend used to sit upper-right;
+ * the instrument panel now owns that corner, so dock the legend lower-right.
+ * #map-overlay is a child of #map-pane (not #map), so `bottom: 12px` would
+ * land it inside the controls-bar — offset by ~56px (controls-bar height) so
+ * it floats over the map just above the bar. */
+#map-pane #map-overlay {
+  top: auto;
+  right: 12px;
+  bottom: 64px;
+}
+
+#map-pane #controls-bar.controls-bar {
+  position: static;                  /* override video.css's `position: fixed` */
+  transform: none;
+  margin: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--text);
+  width: 100%;
+  max-width: none;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  backdrop-filter: none;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+#map-pane #controls-bar .progress-bar { flex: 1; min-width: 80px; }
+
+#map-pane #controls-bar .time-current,
+#map-pane #controls-bar .time-duration {
+  min-width: 180px;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  text-align: left;
+  color: var(--text);
+}
+
+#map-pane #controls-bar .time-duration { text-align: right; }
+
+#instrument-panel .data {
+  height: 30px;
+  font-size: 18px;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+#instrument-panel .data_value { width: 56px; }
+#instrument-panel .data-select { font-size: 18px; max-width: 26%; }
+#instrument-panel .sparkline { width: 60%; }
+#instrument-panel .strip { width: 60%; }
+
+
+/* Fleet (per-AIS-boat) speed overlay. Stacked below #instrument-panel
+ * inside #right-stack — positioning + width come from the shared rule
+ * above; this rule is just for in-panel typography that differs from
+ * the (larger) instrument panel. */
+#map-pane #fleet-panel.info {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  text-shadow: none;
+  flex: 0 1 auto;
+  min-height: 0;                     /* allow the flex parent to shrink it */
+}
+
+#fleet-panel .fleet-row {
+  display: grid;
+  grid-template-columns: 12px 1fr 44px 54px;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  cursor: pointer;
+}
+
+#fleet-panel .fleet-row:hover { background: rgba(88, 166, 255, 0.07); }
+#fleet-panel .fleet-row.selected { background: rgba(255, 214, 10, 0.16); }
+
+#fleet-panel .fleet-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+#fleet-panel .fleet-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+#fleet-panel .fleet-sog {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+#fleet-panel .fleet-dist {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#fleet-panel .fleet-spark {
+  grid-column: 1 / -1;
+  height: 18px;
+  margin-top: 2px;
+  width: 100%;
+  stroke: rgba(255, 255, 255, 0.9);
+  fill: rgba(88, 166, 255, 0.25);
+}
+
+
+/* Ladder-line toggle and on-map gap label. The toggle lives in the
+ * lower-right legend (#map-overlay); the label uses a Leaflet divIcon so
+ * it stays anchored to the ladder rung's midpoint as the map pans/zooms. */
+#map-overlay .track-length {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+#map-overlay .track-length input[type="range"] {
+  flex: 1;
+  min-width: 90px;
+  height: 14px;
+  cursor: pointer;
+}
+
+#map-overlay .track-length #track-length-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  min-width: 56px;
+}
+
+#map-overlay .ladder-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#map-overlay .overlay-hint {
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+#map-overlay .overlay-hint kbd {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ladder-label {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.85), 0 0 6px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  pointer-events: none;
+}

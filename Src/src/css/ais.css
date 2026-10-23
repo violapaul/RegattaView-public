@@ -1,0 +1,277 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1f2630;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 var(--font);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:hover { border-color: var(--accent); }
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+#header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+#subtitle,
+#stats {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#stats {
+  margin-left: auto;
+  text-align: right;
+}
+
+#date-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#date-controls label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#date-input,
+#boat-search {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #0d1117;
+  color: var(--text);
+}
+
+#date-input { padding: 5px 7px; }
+
+#load-btn { padding: 5px 12px; }
+
+#main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+#sidebar {
+  width: 370px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+#filter-box {
+  flex: 0 0 auto;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+#boat-search {
+  width: 100%;
+  padding: 8px 10px;
+}
+
+#bulk-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+#bulk-actions button {
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+#boat-list {
+  flex: 1;
+  overflow: auto;
+}
+
+.boat-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.7);
+}
+
+.boat-row:hover { background: rgba(88, 166, 255, 0.07); }
+.boat-row.ego { background: rgba(88, 166, 255, 0.08); }
+.boat-row.missing { opacity: 0.68; }
+.boat-row.selected {
+  background: rgba(255, 214, 10, 0.16);
+  box-shadow: inset 4px 0 0 #ffd60a;
+}
+.boat-row.selected:hover { background: rgba(255, 214, 10, 0.22); }
+
+.boat-main {
+  min-width: 0;
+}
+
+.boat-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.boat-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.boat-meta {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.boat-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.boat-toggle input {
+  margin: 0;
+}
+
+.boat-status {
+  grid-column: span 2;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.boat-swatch,
+.swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.swatch.ego {
+  background: #fff;
+  border: 2px solid var(--accent);
+}
+
+#map-pane {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #05070a;
+}
+
+#map {
+  flex: 1;
+  min-height: 0;
+}
+
+#map-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 500;
+  min-width: 160px;
+  padding: 8px 10px;
+  border: 1px solid rgba(48, 54, 61, 0.9);
+  border-radius: 8px;
+  background: rgba(13, 17, 23, 0.82);
+  color: var(--text);
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+#active-count {
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.leaflet-container {
+  background: #0b1220;
+}
+
+.leaflet-tile-pane img {
+  filter: saturate(0.35) contrast(0.9) brightness(1.04);
+}
+
+@media (max-width: 850px) {
+  #header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  #stats {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  #main {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    width: 100%;
+    height: 36vh;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}

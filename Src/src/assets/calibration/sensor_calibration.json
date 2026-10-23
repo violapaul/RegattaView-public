@@ -1,0 +1,18 @@
+{
+  "spd": {
+    "scale": 1.22,
+    "offset": 0.0
+  },
+  "heading": {
+    "offset": -2.3
+  },
+  "heel": {
+    "offset": -4.0
+  },
+  "awa": {
+    "offset": 0.5
+  },
+  "depth": {
+    "offset": 0.0
+  }
+}

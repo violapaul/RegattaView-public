@@ -1,0 +1,4 @@
+deployed/
+__pycache__/
+*.pyc
+src/vendor/

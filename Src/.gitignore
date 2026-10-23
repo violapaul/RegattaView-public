@@ -1,0 +1,10 @@
+
+
+# Dependency directories
+node_modules/
+
+# pack files end in _pack.js
+*_pack.js
+
+
+.local-data/

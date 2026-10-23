@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIS Tracks</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">
+  <header id="header">
+    <div>
+      <h1>AIS Tracks</h1>
+      <div id="subtitle">Sailing days with nearby AIS</div>
+    </div>
+    <div id="date-controls">
+      <a id="index-link" href="tracks.html">All days</a>
+      <label for="date-input">Date</label>
+      <input type="date" id="date-input">
+      <button id="load-btn" type="button">Load</button>
+    </div>
+    <div id="stats">Loading...</div>
+  </header>
+
+  <main id="index-view" class="view">
+    <section id="day-index-panel">
+      <h2>Available AIS Days</h2>
+      <p>Only sailing days with overlapping AIS and nearby boats are listed.</p>
+      <div id="day-list"></div>
+    </section>
+  </main>
+
+  <main id="day-view" class="view" hidden>
+    <aside id="sidebar">
+      <div id="filter-box">
+        <input type="search" id="boat-search" placeholder="Search boat, sail #, MMSI, callsign">
+        <div id="filter-actions">
+          <label><input type="checkbox" id="filter-j105"> J/105 only</label>
+          <label><input type="checkbox" id="filter-named"> Named only</label>
+          <label><input type="checkbox" id="filter-selected"> Selected only</label>
+          <label>
+            Sort
+            <select id="sort-boats">
+              <option value="fleet">J/105 first</option>
+              <option value="distance">Closest approach</option>
+              <option value="name">Name</option>
+              <option value="points">AIS points</option>
+            </select>
+          </label>
+        </div>
+        <div id="bulk-actions">
+          <button type="button" id="show-all">Show all</button>
+          <button type="button" id="show-none">Show none</button>
+          <button type="button" id="tracks-all">Tracks all</button>
+          <button type="button" id="tracks-none">Tracks none</button>
+        </div>
+      </div>
+      <div id="boat-list" aria-label="AIS boats"></div>
+    </aside>
+
+    <section id="map-pane">
+      <div id="map"></div>
+      <div id="map-overlay">
+        <div><span class="swatch ego"></span> Our boat</div>
+        <div id="active-count"></div>
+        <label class="track-length" title="How far back each boat's trail extends from the current time">
+          Trail <span id="track-length-value">20 min</span>
+          <input type="range" id="track-length" min="300" max="7200" step="300" value="1200">
+        </label>
+        <label class="ladder-toggle" title="Lines perpendicular to true wind; labels show signed upwind gap">
+          <input type="checkbox" id="ladder-toggle"> Ladder lines
+        </label>
+        <div class="overlay-hint" title="Copies a link to this exact time, zoom, and set of shown/tracked boats">Press <kbd>C</kbd> to copy a share link</div>
+        <div class="overlay-hint" title="Opens the 360 video viewer at the current time in a new tab">Press <kbd>V</kbd> to open the video here</div>
+      </div>
+      <div id="right-stack">
+        <div class="info" id="instrument-panel" hidden></div>
+        <div class="info" id="fleet-panel" hidden></div>
+      </div>
+      <div id="controls-bar" class="controls-bar">
+        <button class="ctrl-btn play-btn" id="play-btn" data-icon="P" title="Play/Pause (Space)"></button>
+        <button class="ctrl-btn skip-back" id="skip-back-btn" title="Back 10 s (Left Arrow)">-10</button>
+        <button class="ctrl-btn skip-fwd" id="skip-fwd-btn" title="Forward 10 s (Right Arrow)">+10</button>
+        <span class="time-current" id="time-readout">--</span>
+        <input type="range" class="progress-bar" id="time-range" min="0" max="0" step="1" value="0">
+        <span class="time-duration" id="time-end-readout">--</span>
+        <button class="ctrl-btn speed-btn" id="speed-btn" title="Playback speed">1x</button>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

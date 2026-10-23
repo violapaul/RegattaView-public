@@ -1,0 +1,8 @@
+# run-generated captures (scripts write live_raw.jsonl into this dir)
+/live_raw.jsonl
+/live_raw*.jsonl
+/capture.jsonl
+# local python env / caches
+.venv/
+__pycache__/
+*.pyc

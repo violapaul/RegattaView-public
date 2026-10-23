@@ -1,0 +1,11 @@
+requests
+beautifulsoup4
+lxml
+rapidfuzz
+pyyaml
+pandas
+pytest
+pdfplumber  # SYC posts post-2018 results as Sailwave-exported PDFs
+pymupdf     # render PDF pages to images for OCR fallback
+pytesseract # OCR for Type3/CID-encoded SYC PDFs (needs `brew install tesseract`)
+

@@ -1,0 +1,52 @@
+# Paths kept OUT of git and stored in s3://regattaview-repo-data/tree/<path>
+# (private, versioned). Sync with `Scripts/repo_data.py pull|push|status`.
+# A trailing "/" means a whole directory; any `scripts/` subdirectory inside
+# stays in git (code). Keep .gitignore's "repo data" block in lockstep.
+
+# Race notes + article (gated content on regattaview.net)
+Analyze/Notes/
+Analyze/tacking_article/
+# (rest of Analyze/Plots/ is regenerable output, already gitignored)
+Analyze/Plots/adaptive_eval/summary.csv
+Analyze/Plots/adaptive_eval/summary.md
+
+# Analysis outputs read by Analyze/ scripts
+Analyze/baseline_frame_audit.json
+Analyze/stage1_frame_audit.json
+Analyze/heel_wind_witness.json
+Analyze/calibration_ground_ref_2026.json
+Analyze/calibration_water_ref_2026.json
+Analyze/leeway_model.json
+
+# Research write-ups
+Analyze/CURRENT_ANALYSIS.md
+Analyze/estimator_math_review.md
+Analyze/HEADING_CALIBRATION.md
+Analyze/SPEEDO_CALIBRATION.md
+Analyze/start_detection_status.md
+Analyze/TACKING_EFFICIENCY.md
+Analyze/true_wind_approaches.md
+Analyze/true_wind_ground_ref.md
+Analyze/TRUE_WIND_NOTES.md
+Analyze/twd_reference.md
+docs/LEGACY_LEARNINGS.md
+VakarosBLE/FINDINGS.md
+
+# Ops / status docs
+AGENT_STATUS.md
+AGENT_STATUS.html
+AGENT_WORKTREE_SURVEY.md
+AWS_SECURITY_STATUS.md
+BACKUP.md
+DEPLOY-AUTH.md
+Scripts/cf_signing_setup.md
+
+# Scraped results (Results/ tests + crawler inputs)
+Results/tests/fixtures/
+Results/storage/seeds/
+Results/storage/identity_overrides.yaml
+
+# Captures / samples / media
+VakarosBLE/captures/
+iOS/Shared/boatstate_20230123_130812_0095.bin
+Src/src/assets/images/dual_fisheye_big.jpg

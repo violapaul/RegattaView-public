@@ -1,0 +1,14 @@
+---
+description: Frontend workflow and verification for Src
+globs: Src/**/*
+alwaysApply: false
+---
+
+# Frontend Workflow
+
+- Treat `Src/webpack.config.js` as the source of truth for frontend entry points.
+- `viewer360.js` is shared 360 viewer logic; `sailview.js`, `review.js`, `calibrate.js`, and `playlists.js` are page-level entry files.
+- Prefer `cd Src && npm run build` for verification. Do not rely on `npm test`; it is a failing placeholder.
+- Keep UI utilitarian, accessible, and dependency-light unless a heavier dependency is clearly justified.
+- For `review.html` local development, run `cd Src && npm run start` (single process on port 9000). The webpack dev server mirrors the prod S3 layout: `/Analyze/...` and `/Comments/...` are served from `Analyze/` and `Analyze/Comments/` on disk, and PUTs to `/Analyze/events_edits.json`, `/Comments/index.json`, and `/Comments/<alias>/comments.json` persist there.
+- Explain what the user will see after visual changes and mention any tradeoffs.

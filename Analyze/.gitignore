@@ -1,0 +1,13 @@
+starts.json
+tracks.json
+starts_edits.json
+# find_starts.py / label.js — generated index, per-event payloads, local label overlay
+events_index.json
+events_edits.json
+Events/
+Sessions/
+AIS/
+AISDays/
+*.bak
+__pycache__/
+*.pyc

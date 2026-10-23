@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "name": "Legacy guessed dual-fisheye calibration",
+  "calibration": {
+    "fov": 180.0,
+    "front": {
+      "center": [0.25, 0.5],
+      "scale": [0.5, 1.0],
+      "euler": [0.0, 0.0, 0.0],
+      "distortion": [0.0, 0.0]
+    },
+    "back": {
+      "center": [0.75, 0.5],
+      "scale": [-0.5, 1.0],
+      "euler": [0.0, 0.0, 0.0],
+      "distortion": [0.0, 0.0]
+    },
+    "projection": {
+      "aperture": 0.296,
+      "viewCorrection": -0.2
+    },
+    "seam": {
+      "centerYaw": 0.0,
+      "width": 0.1,
+      "feather": 1.0
+    }
+  }
+}

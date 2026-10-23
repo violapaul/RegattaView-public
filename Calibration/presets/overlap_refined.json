@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "name": "overlap-refined-charuco_observations_20260330_131521_s7",
+  "calibration": {
+    "fov": 180.0,
+    "front": {
+      "center": [
+        0.25,
+        0.5
+      ],
+      "scale": [
+        0.5,
+        1.0
+      ],
+      "euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "back": {
+      "center": [
+        0.75,
+        0.5
+      ],
+      "scale": [
+        -0.5,
+        1.0
+      ],
+      "euler": [
+        -3.095465291314973,
+        -0.0014748272216588629,
+        -1.7875986489882905
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "projection": {
+      "aperture": 0.296,
+      "viewCorrection": -0.2
+    },
+    "seam": {
+      "centerYaw": 0.0,
+      "width": 0.1,
+      "feather": 1.0
+    }
+  },
+  "fitDiagnostics": {
+    "mode": "overlap_refinement",
+    "seedPreset": "Src/src/assets/calibration/legacy_guess.json",
+    "observationsFile": "Calibration/tmp/charuco_observations_20260330_131521_s7.json",
+    "totalPairs": 62,
+    "acceptedPairs": 5,
+    "droppedPairs": 57,
+    "rawBackEulerDeg": [
+      -177.3571,
+      -0.0845,
+      -102.4219
+    ],
+    "refinedBackEulerDeg": [
+      -177.3571,
+      -0.0845,
+      -102.4219
+    ],
+    "seamYawShiftDeg": 0.0,
+    "newSeamCenterYawDeg": 0.0
+  }
+}

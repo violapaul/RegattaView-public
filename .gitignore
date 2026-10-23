@@ -1,0 +1,121 @@
+# Node / frontend build
+Src/node_modules/
+Src/dist/
+
+# Arduino / PlatformIO
+Arduino/.pio/
+Arduino/.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+.pytest_cache/
+.env*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.cursorignore
+
+# Claude Code runtime
+.claude/scheduled_tasks.lock
+.claude/worktrees/
+
+# Repomix packs (regenerate with .claude/repomix/regenerate.sh)
+.claude/repomix/pack_*.md
+repomix-output.*
+
+# Logs
+*.log
+
+# Misc
+tmp.py
+tmp.md
+od
+out.txt
+
+# Data / media – keep large & generated files out of the repo
+Calibration/tmp/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.bag
+*.mcap
+
+# Generated diagnostic plots (e.g. Analyze/slog_experiments.py output)
+Analyze/Plots/
+
+# Current-investigation outputs (figures/CSVs) + pooled tack dataset.
+# Regenerate via Analyze/investigate_current.py, build_tack_dataset.py,
+# leeway_report.py, stw_scale_*.py.
+Analyze/CurrentOut/
+Analyze/TackData/
+
+# Playwright MCP scratch dir (per-tool-call snapshots / console logs).
+.playwright-mcp/
+
+# Stale 210 MB legacy starts dump — exceeded GitHub's 100 MB file limit.
+Analyze/starts_legacy.json
+
+# Per-problem feature snapshots produced by the start-detection pipeline.
+# Regenerate locally via race_logs.read_log_file; not tracked.
+Analyze/start_problem_*_features.parquet
+
+# Per-recording transcripts/summaries/keypoints. Regenerate via
+# Scripts/transcribe_audio.py + Scripts/summarize_transcript.py.
+Analyze/Transcripts/
+
+# Runtime artifacts from Scripts/migrate_virb.py (per-run JSON status files).
+migrations/
+
+# Repo data — kept in s3://regattaview-repo-data/tree/ (private, versioned),
+# synced with Scripts/repo_data.py. Keep in lockstep with repo_data.manifest.
+/Analyze/Notes/*/*
+!/Analyze/Notes/*/scripts/
+/Analyze/Notes/notes_index.json
+/Analyze/tacking_article/
+/Analyze/baseline_frame_audit.json
+/Analyze/stage1_frame_audit.json
+/Analyze/heel_wind_witness.json
+/Analyze/calibration_ground_ref_2026.json
+/Analyze/calibration_water_ref_2026.json
+/Analyze/leeway_model.json
+/Analyze/CURRENT_ANALYSIS.md
+/Analyze/estimator_math_review.md
+/Analyze/HEADING_CALIBRATION.md
+/Analyze/SPEEDO_CALIBRATION.md
+/Analyze/start_detection_status.md
+/Analyze/TACKING_EFFICIENCY.md
+/Analyze/true_wind_approaches.md
+/Analyze/true_wind_ground_ref.md
+/Analyze/TRUE_WIND_NOTES.md
+/Analyze/twd_reference.md
+/docs/LEGACY_LEARNINGS.md
+/VakarosBLE/FINDINGS.md
+/AGENT_STATUS.md
+/AGENT_STATUS.html
+/AGENT_WORKTREE_SURVEY.md
+/AWS_SECURITY_STATUS.md
+/BACKUP.md
+/DEPLOY-AUTH.md
+/Scripts/cf_signing_setup.md
+/Results/tests/fixtures/
+/Results/storage/seeds/
+/Results/storage/identity_overrides.yaml
+/VakarosBLE/captures/
+/iOS/Shared/boatstate_20230123_130812_0095.bin
+# Whole folder: CopyPlugin ships all of src/assets publicly; only the
+# fisheye texture (in repo data) belongs here.
+/Src/src/assets/images/
+
+# Device credentials are provisioned locally, never in source control.
+Arduino/include/wifi_credentials.local.hpp

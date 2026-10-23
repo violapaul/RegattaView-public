@@ -1,0 +1,26 @@
+{
+    "columns": {
+        "row_seconds": 0,
+        "spd": 1,
+        "sog": 2,
+        "latitude": 3,
+        "longitude": 4,
+        "turn_rate": 5,
+        "rudder": 6,
+        "depth": 7,
+        "altitude": 8,
+        "zg100_pitch": 9,
+        "zg100_roll": 10,
+        "awa": 11,
+        "aws": 12,
+        "twd": 13,
+        "tws": 14,
+        "twa": 15,
+        "hdg": 16,
+        "cog": 17,
+        "map_lon": 18,
+        "map_lat": 19,
+        "row_times": 20,
+        "variation": 21
+    }
+}

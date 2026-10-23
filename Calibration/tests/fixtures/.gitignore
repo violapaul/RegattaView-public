@@ -1,0 +1,5 @@
+synth_*.png
+ground_truth.json
+
+!.gitignore
+!README.md

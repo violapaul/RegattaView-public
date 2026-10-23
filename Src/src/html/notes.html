@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Race Notes</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column;
+      font: 16px/1.5 -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif; color: #1a1a1a; }
+    #topbar { flex: 0 0 auto; display: flex; align-items: baseline; gap: 1rem;
+      padding: .6rem 1rem; border-bottom: 1px solid #ddd; background: #fafafa; }
+    #topbar h1 { font-size: 1.05rem; margin: 0; }
+    #topbar a { color: #1763b8; text-decoration: none; font-size: .9rem; }
+    #topbar a:hover { text-decoration: underline; }
+    .spacer { flex: 1 1 auto; }
+    #frame { flex: 1 1 auto; width: 100%; border: 0; }
+    #list { flex: 1 1 auto; overflow: auto; max-width: 820px; margin: 0 auto; padding: 1.2rem 1rem; }
+    .note-card { display: block; padding: .9rem 1rem; margin: .7rem 0; border: 1px solid #e2e2e2;
+      border-radius: 8px; text-decoration: none; color: inherit; background: #fff; }
+    .note-card:hover { border-color: #1763b8; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .note-meta { font-size: .78rem; color: #888; text-transform: uppercase; letter-spacing: .03em; }
+    .note-title { font-size: 1.1rem; font-weight: 600; margin: .15rem 0 .3rem; color: #143; }
+    .note-headline { font-size: .92rem; color: #444; }
+    .empty { color: #888; }
+    #error { flex: 0 0 auto; margin: 1rem; padding: .8rem 1rem; border-radius: 6px;
+      background: #fff3f3; border: 1px solid #f0c0c0; color: #a33; white-space: pre-wrap; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="topbar">
+    <a id="home" href="index.html">← Home</a>
+    <a id="all-notes" href="notes.html">All notes</a>
+    <div class="spacer"></div>
+    <h1 id="title">Race Notes</h1>
+  </div>
+  <div id="list" class="hidden"></div>
+  <iframe id="frame" class="hidden" title="race note" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
+  <div id="error" class="hidden"></div>
+</body>
+</html>

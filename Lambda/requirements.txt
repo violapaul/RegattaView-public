@@ -1,0 +1,7 @@
+# Pure-Python RSA library — used by utils.py::_load_cf_private_key for
+# parsing the PEM-encoded CloudFront signing private key into (n, d)
+# integers. Only the PEM parser is used; the actual RSA-SHA1 signing
+# is stdlib pow() / hashlib.sha1. ~20 KB; ships as py3-none-any so it
+# satisfies deploy.sh's --only-binary --platform manylinux2014_aarch64
+# constraint without any native bits.
+rsa>=4.9

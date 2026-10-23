@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Race Event Review</title>
+
+  <!-- Leaflet with rotation support -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js" integrity="sha256-+Qs8D9zbGHhw1CGR1C/Ty+hiG/oYv998Rs2DntIXIrY=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- ---- Header ---- -->
+  <div id="header">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2">
+      <path d="M12 2L2 20h20L12 2z"/><line x1="12" y1="10" x2="12" y2="14"/>
+    </svg>
+    <h1>Race Event Review</h1>
+    <div class="subtitle">Sailing data analysis</div>
+    <div class="spacer"></div>
+    <div id="stats">
+      <span>Total: <b id="stat-total">0</b></span>
+      <span style="color:#3fb950">Confirmed: <b id="stat-confirmed">0</b></span>
+      <span>Pending: <b id="stat-pending">0</b></span>
+      <span style="color:#f85149">Discarded: <b id="stat-discarded">0</b></span>
+    </div>
+    <button id="save-btn" disabled>Save</button>
+  </div>
+
+  <!-- ---- Two pane ---- -->
+  <div id="main">
+
+    <!-- LEFT: list -->
+    <div id="list-panel">
+      <div id="tab-bar">
+        <button class="tab-btn active" data-tab="starts">Events</button>
+        <button class="tab-btn" data-tab="comments">Comments</button>
+      </div>
+      <div id="list-controls">
+        <div id="starts-controls" data-tab-content="starts">
+          <label>Filter:
+            <select id="filter-status">
+              <option value="all" selected>All</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="discarded">Discarded</option>
+            </select>
+          </label>
+          <fieldset id="kind-filter" class="kind-filter">
+            <legend>Kind:</legend>
+            <label><input type="checkbox" class="kind-filter-check" value="start" checked> start</label>
+            <label><input type="checkbox" class="kind-filter-check" value="windward_rounding" checked> windward</label>
+            <label><input type="checkbox" class="kind-filter-check" value="leeward_rounding" checked> leeward</label>
+            <label><input type="checkbox" class="kind-filter-check" value="tack" checked> tack</label>
+            <label><input type="checkbox" class="kind-filter-check" value="gybe" checked> gybe</label>
+            <label><input type="checkbox" class="kind-filter-check" value="other"> other</label>
+          </fieldset>
+          <label>Sort:
+            <select id="sort-by">
+              <option value="date">Time</option>
+              <option value="confidence">Confidence</option>
+              <option value="start_confidence">Start confidence</option>
+              <option value="rounding_confidence">Rounding confidence</option>
+              <option value="review_priority">Review priority</option>
+              <option value="wind">Wind Speed</option>
+            </select>
+          </label>
+        </div>
+        <div id="comments-controls" data-tab-content="comments" style="display:none; font-size:12px; color:var(--muted);">
+          Comments across all users. Click a row's button to jump to the source.
+        </div>
+      </div>
+      <div id="day-picker" data-tab-content="starts">
+        <button type="button" id="day-picker-toggle" class="day-picker-toggle" title="Select day">
+          <span class="dp-label">All days</span>
+          <span class="dp-count"></span>
+          <span class="dp-caret" aria-hidden="true">▾</span>
+        </button>
+        <div id="day-picker-panel" hidden></div>
+      </div>
+      <div id="start-list"></div>
+    </div>
+
+    <!-- RIGHT: detail -->
+    <div id="detail-panel">
+      <div id="detail-empty">← Select an event from the list to inspect it.</div>
+
+      <div id="detail-content" style="display:none; flex-direction:column; gap:16px;">
+
+        <!-- Detail header -->
+        <div id="detail-header">
+          <div>
+            <h2 id="detail-title" style="margin:0;font-size:20px;font-weight:700"></h2>
+            <p id="detail-subtitle" style="color:#8b949e;font-size:12px;margin:2px 0 0"></p>
+          </div>
+          <div class="spacer"></div>
+          <div class="action-btns">
+            <button id="btn-confirm" class="btn btn-confirm">Confirm ✓</button>
+            <button id="btn-discard" class="btn btn-discard">Discard ✗</button>
+          </div>
+        </div>
+
+        <!-- Row 1: Video -->
+        <div>
+          <div class="section-title" style="display:flex; align-items:center; gap:12px;">
+            Video
+            <button id="toggle-wind-view" class="btn" style="padding:2px 10px; font-size:11px;">Geographic View</button>
+            <button id="toggle-ais-view" class="btn" style="padding:2px 10px; font-size:11px;" title="Show or hide nearby AIS boats on the map">Hide AIS</button>
+          </div>
+          <div id="video-container">
+            <div id="viewer-mount" style="width:100%; height:100%;"></div>
+            <div id="video-message" style="display:none;"></div>
+
+            <!-- Sailview-style overlay: focused instruments + wind-up mini map. -->
+            <div id="video-overlay" class="video-overlay">
+              <div class="ov-data" data-channel="awa"><span class="ov-label">AWA</span><span class="ov-value">--</span><svg class="ov-sparkline"></svg></div>
+              <div class="ov-data" data-channel="spd"><span class="ov-label">SPD</span><span class="ov-value">--</span><svg class="ov-sparkline"></svg></div>
+              <div class="ov-data" data-channel="hdg"><span class="ov-label">HDG</span><span class="ov-value">--</span><svg class="ov-sparkline"></svg></div>
+              <div class="ov-data" data-channel="tws"><span class="ov-label">TWS</span><span class="ov-value">--</span><svg class="ov-sparkline"></svg></div>
+              <div class="ov-data" data-channel="heel"><span class="ov-label">HEEL</span><span class="ov-value">--</span><svg class="ov-sparkline"></svg></div>
+              <div class="ov-map">
+                <svg id="overlay-map" width="200" height="200" stroke-width="3"></svg>
+                <div class="ov-map-label">wind up</div>
+              </div>
+            </div>
+          </div>
+          <div id="detail-scrubber" class="review-controls-bar">
+            <button id="detail-play-btn" class="btn chrome-btn" title="Play/Pause (Space)">▶</button>
+            <button id="detail-skip-back" class="btn chrome-btn" title="Back 5s (↓)">−5</button>
+            <button id="detail-skip-fwd" class="btn chrome-btn" title="Forward 5s (↑)">+5</button>
+            <span id="detail-scrubber-time" class="chrome-time">+0s</span>
+            <input type="range" id="detail-scrubber-range" class="chrome-progress" min="-300" max="600" step="1" value="0">
+            <button id="detail-speed-btn" class="btn chrome-btn" title="Playback Speed (s slower / d faster)">1×</button>
+            <button id="detail-mute-btn" class="btn chrome-btn" title="Mute (m)">🔊</button>
+            <button id="detail-fullscreen-btn" class="btn chrome-btn" title="Fullscreen">⛶</button>
+          </div>
+        </div>
+
+        <!-- Row 2: Map + Charts side-by-side -->
+        <div>
+          <div class="section-title">Track &amp; Performance</div>
+          <div class="map-chart-row">
+            <div id="detail-map-container">
+              <div id="detail-map"></div>
+              <div id="ais-legend" style="display:none;"></div>
+            </div>
+            <div class="charts-col">
+              <div class="chart-box">
+                <div class="chart-label">AWA (°) — close-hauled threshold at ±40°</div>
+                <canvas id="chart-awa"></canvas>
+              </div>
+              <div class="chart-box">
+                <div class="chart-label">Heading (°)</div>
+                <canvas id="chart-hdg"></canvas>
+              </div>
+              <div class="chart-box">
+                <div class="chart-label">Speed (kts)</div>
+                <canvas id="chart-speed"></canvas>
+              </div>
+              <div class="chart-box">
+                <div class="chart-label">VMG upwind (kts)</div>
+                <canvas id="chart-vmg"></canvas>
+              </div>
+              <div class="chart-box">
+                <div class="chart-label">TWD (°)</div>
+                <canvas id="chart-twd"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes / critique -->
+        <div>
+          <div class="section-title">Notes &amp; Critique</div>
+          <textarea id="detail-notes"
+            placeholder="e.g. start detected ~10s late, false positive (just practice tacks), dirty air on first beat, detection looks good..."
+            rows="3"></textarea>
+          <p style="font-size:11px;color:#8b949e;margin-top:4px">
+            Saved automatically when you click away. Stored in <code>events_edits.json</code>.
+          </p>
+        </div>
+
+        <!-- Comments on this start -->
+        <div>
+          <div class="section-title">Comments</div>
+          <div id="detail-comments-list"></div>
+          <div id="detail-comment-composer">
+            <textarea id="detail-comment-text" rows="2" placeholder="Add a comment on this start…"></textarea>
+            <div class="composer-row">
+              <button id="detail-comment-submit" class="btn">Post</button>
+              <button id="detail-comment-edit-alias" class="btn" title="Change how your name appears on new comments">Edit alias</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maneuvers table -->
+        <div>
+          <div class="section-title">Maneuvers</div>
+          <table class="maneuver-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Dir</th>
+                <th>Δhdg</th>
+                <th>Entry spd (kt)</th>
+                <th>Min spd (kt)</th>
+                <th>Spd ≥80%</th>
+                <th>Spd ≥90%</th>
+                <th>Lost (m / s)</th>
+                <th>Yaw</th>
+                <th>TWA sym</th>
+              </tr>
+            </thead>
+            <tbody id="maneuver-tbody"></tbody>
+          </table>
+          <p style="font-size:11px;color:#8b949e;margin-top:6px">
+            Grey rows = pre-start. Time is seconds relative to the event key time. Entry spd is the
+            mean SOG over the 30 s before the maneuver (kt). Spd ≥80% / ≥90% are seconds to recover
+            that fraction of entry boat-speed (sustained ≥1 s). Lost = VMG-deficit integral over the
+            30 s post-maneuver window, in meters and the equivalent seconds upwind. Yaw is peak
+            |dHdg/dt| (deg/s) on a 0.5 Hz LPF heading. TWA sym = |pre TWA| − |post TWA| (deg).
+          </p>
+        </div>
+
+      </div><!-- /detail-content -->
+    </div><!-- /detail-panel -->
+
+  </div><!-- /main -->
+
+  <!-- Away / auto-pause overlay (shown when window loses focus or tab is hidden) -->
+  <div id="awayOverlay">
+    <div id="awayDialog">
+      <p id="awayMessage">Paused while you were away.</p>
+      <p id="awaySub">Saving bandwidth — resumes when you return.</p>
+    </div>
+  </div>
+
+  <!-- Help overlay (toggle with H key) -->
+  <div id="help-overlay" style="display:none;">
+    <div class="help-content">
+      <p class="help-hint">Press <kbd>H</kbd> or <kbd>Escape</kbd> to close</p>
+
+      <h3>Race Start Review</h3>
+      <p>Review and annotate automatically detected race events. Click an event in the left panel to inspect it.</p>
+
+      <h3>Keyboard Shortcuts</h3>
+      <table class="help-keys">
+        <tr><td><kbd>Space</kbd></td><td>Play / Pause video</td></tr>
+        <tr><td><kbd>Up</kbd> / <kbd>Down</kbd></td><td>Skip forward / back 5 seconds</td></tr>
+        <tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Step forward / back one frame</td></tr>
+        <tr><td><kbd>D</kbd> / <kbd>S</kbd></td><td>Speed up / slow down playback (1.1x / 0.9x)</td></tr>
+        <tr><td><kbd>R</kbd></td><td>Reset viewpoint and zoom</td></tr>
+        <tr><td><kbd>F</kbd></td><td>Flip the view (front / back camera)</td></tr>
+        <tr><td><kbd>M</kbd></td><td>Mute / Unmute audio</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Copy time-stamped link to clipboard</td></tr>
+        <tr><td><kbd>H</kbd></td><td>Show / hide this help</td></tr>
+      </table>
+
+      <h3>Video Clip Chaining</h3>
+      <p>If a start spans multiple ~30-minute video clips, playback automatically continues to the next clip when needed. There's typically a ~15 second gap between recordings.</p>
+
+      <h3>Notes</h3>
+      <p>Use the Notes &amp; Critique text box to add comments. They auto-save and are stored in <code>events_edits.json</code>.</p>
+    </div>
+  </div>
+
+</div><!-- /app -->
+</body>
+</html>

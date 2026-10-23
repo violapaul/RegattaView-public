@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "name": "feature-matched-feature_matched",
+  "calibration": {
+    "fov": 180.0,
+    "front": {
+      "center": [
+        0.25,
+        0.5
+      ],
+      "scale": [
+        0.5,
+        1.0
+      ],
+      "euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "back": {
+      "center": [
+        0.75,
+        0.5
+      ],
+      "scale": [
+        -0.5,
+        1.0
+      ],
+      "euler": [
+        0.005814121381064371,
+        -0.012189394835736276,
+        0.0
+      ],
+      "distortion": [
+        0.0,
+        0.0
+      ]
+    },
+    "projection": {
+      "aperture": 0.296,
+      "viewCorrection": -0.2
+    },
+    "seam": {
+      "centerYaw": 0.0,
+      "width": 0.1,
+      "feather": 1.0
+    }
+  },
+  "fitDiagnostics": {
+    "mode": "feature_matching",
+    "seedPreset": "Src/src/assets/calibration/legacy_guess.json",
+    "numFrames": 20,
+    "framesMatched": 20,
+    "totalInliers": 1618,
+    "medianDisplacementPx": [
+      -1.94,
+      5.76
+    ],
+    "stripSize": [
+      1000,
+      200
+    ],
+    "eulerCorrectionDeg": [
+      0.3331,
+      -0.6984,
+      0.0
+    ],
+    "seedBackEulerDeg": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "newBackEulerDeg": [
+      0.3331,
+      -0.6984,
+      0.0
+    ]
+  }
+}

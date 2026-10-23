@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Overview</title>
+</head>
+<body>
+<div id="app">
+
+  <div id="header">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2">
+      <path d="M4 19.5V6a2 2 0 0 1 2-2h13"/>
+      <path d="M6 4v16h13"/>
+      <path d="M9 9h7M9 13h7"/>
+    </svg>
+    <div>
+      <h1 id="lesson-title">Lesson</h1>
+      <div class="subtitle" id="lesson-meta">&nbsp;</div>
+    </div>
+    <div class="spacer"></div>
+    <button id="show-transcript-btn" class="btn-secondary">Show transcript</button>
+  </div>
+
+  <div id="main">
+
+    <div id="summary-pane">
+      <div id="summary" class="markdown"></div>
+    </div>
+
+    <div id="keypoints-pane">
+      <div class="pane-header">
+        <h2>Keypoints</h2>
+        <span class="hint" id="keypoint-count"></span>
+      </div>
+      <div id="keypoint-list"></div>
+    </div>
+
+  </div>
+
+  <div id="transcript-overlay" class="hidden">
+    <div class="overlay-card">
+      <div class="overlay-header">
+        <h2>Transcript</h2>
+        <span class="hint" id="transcript-meta"></span>
+        <div class="spacer"></div>
+        <button id="close-transcript-btn" class="btn-secondary">Close</button>
+      </div>
+      <div id="transcript-body"></div>
+    </div>
+  </div>
+
+  <div id="error-banner" class="hidden"></div>
+
+</div>
+</body>
+</html>

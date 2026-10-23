@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sailview</title>
+    <meta charset="utf8">
+    <!-- viewport-fit=cover: extend layout under notch/home-indicator so
+         env(safe-area-inset-*) values become meaningful. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <!-- PWA / "Add to Home Screen" support: when the user adds the page to
+         their iPhone/iPad home screen and launches it from there, Safari
+         drops the URL bar and tab bar entirely — true fullscreen. This is
+         the only way to hide Safari chrome on iPhone (Element.requestFullscreen
+         is not supported there). -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sailview">
+    <meta name="theme-color" content="#000000">
+</head>
+
+<body>
+    <div id="viewer-mount"></div>
+    <!-- Small always-visible corner clock on mobile — fed by the render loop
+         from log_data. Hidden on desktop via CSS. -->
+    <div id="cornerTime"></div>
+    <div class="info" id="datablock"> </div>
+
+    <div class="comment" id="displayComment"></div>
+
+    <!-- Event marker overlay -->
+    <div id="eventMarkerOverlay">
+        <div id="eventMarkerDialog">
+            <h3>Mark Event</h3>
+            <div class="em-row">
+                <label for="emEventType">Type</label>
+                <select id="emEventType">
+                    <option value="start">Start</option>
+                    <option value="finish">Finish</option>
+                    <option value="rounding">Rounding</option>
+                    <option value="mark">Mark</option>
+                    <option value="tack">Tack</option>
+                    <option value="gybe">Gybe</option>
+                    <option value="situation">Situation</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="em-row">
+                <label for="emComment">Comment</label>
+                <input type="text" id="emComment" placeholder="Optional note...">
+            </div>
+            <div class="em-row">
+                <label for="emPlaylist">Playlist</label>
+                <select id="emPlaylist">
+                    <option value="">-- None --</option>
+                    <option value="__new__">+ New Playlist</option>
+                </select>
+            </div>
+            <div class="em-row em-new-playlist" style="display:none">
+                <label for="emNewPlaylistName">Name</label>
+                <input type="text" id="emNewPlaylistName" placeholder="Playlist name...">
+            </div>
+            <div class="em-buttons">
+                <button id="emSave" class="ctrl-btn">Save</button>
+                <button id="emCancel" class="ctrl-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc" id="docDiv">
+        <div class="doc-content">
+            <p class="doc-hint">Tap anywhere on this panel, or press <kbd>H</kbd>, to hide this help</p>
+
+            <h3>Peer Gynt Video Player</h3>
+            <p>A 360 video player for sailing race footage, with instrument data overlay when available.</p>
+            <p>Click/touch and drag to look around. Scroll or pinch to zoom. Hold Shift while dragging to roll the view (desktop). Double-tap to reset (touch).</p>
+
+            <h3>Control Bar</h3>
+            <p>The bottom bar has play/pause, skip ±5s, a scrubbable progress bar, playback speed (1x/1.5x/2x/4x), mute, fullscreen, and a video selector. Videos are 30-minute blocks sorted oldest to newest. The player starts at the first clip of the most recent day and prompts you to continue when each clip ends.</p>
+
+            <h3>Keyboard Shortcuts</h3>
+            <table class="doc-keys">
+                <tr><td><kbd>Space</kbd></td><td>Play / Pause</td></tr>
+                <tr><td><kbd>Up</kbd> / <kbd>Down</kbd></td><td>Skip forward / back 5 seconds</td></tr>
+                <tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Step forward / back one frame</td></tr>
+                <tr><td><kbd>R</kbd></td><td>Reset viewpoint, direction, and zoom</td></tr>
+                <tr><td><kbd>F</kbd></td><td>Flip the view (front / back camera)</td></tr>
+                <tr><td><kbd>S</kbd></td><td>Toggle stabilization</td></tr>
+                <tr><td><kbd>M</kbd></td><td>Mute / Unmute audio (starts muted)</td></tr>
+                <tr><td><kbd>Z</kbd></td><td>Zoom the boat track</td></tr>
+                <tr><td><kbd>.</kbd></td><td>Zoom and center the track</td></tr>
+                <tr><td><kbd>L</kbd></td><td>Starting line perpendicular to wind at the boat</td></tr>
+                <tr><td><kbd>C</kbd></td><td>Copy a time-stamped link (with current instrument layout) to the clipboard</td></tr>
+                <tr><td><kbd>N</kbd></td><td>Mark an event (start, rounding, situation, etc.)</td></tr>
+                <tr><td><kbd>K</kbd></td><td>Add a user comment on the current moment</td></tr>
+                <tr><td><kbd>[</kbd> / <kbd>]</kbd></td><td>Previous / next snippet in playlist</td></tr>
+                <tr><td><kbd>H</kbd></td><td>Show / hide this help</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="nextVideoOverlay">
+        <div id="nextVideoDialog">
+            <p id="nextVideoMessage"></p>
+            <div id="nextVideoButtons">
+                <button id="nextVideoContinue" class="ctrl-btn">Continue</button>
+                <button id="nextVideoPause" class="ctrl-btn">Stay Here</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="awayOverlay">
+        <div id="awayDialog">
+            <p id="awayMessage">Paused while you were away.</p>
+            <p id="awaySub">Saving bandwidth — resumes when you return.</p>
+        </div>
+    </div>
+
+    <!-- Mobile floating action buttons. Hidden on desktop. -->
+    <div class="mobile-fab" id="mobileFab">
+        <button class="fab-btn" id="fabPlay" title="Play/Pause" aria-label="Play/Pause">&#x25B6;</button>
+        <button class="fab-btn" id="fabReset" title="Reset view" aria-label="Reset view">&#x27F2;</button>
+        <button class="fab-btn" id="fabControls" title="Show/hide controls" aria-label="Show/hide controls">&#x2630;</button>
+        <button class="fab-btn" id="fabInstruments" title="Show/hide instruments" aria-label="Show/hide instruments">i</button>
+    </div>
+
+    <div class="controls-bar">
+        <button class="ctrl-btn play-btn" data-icon="P" title="Play/Pause (Space)"></button>
+        <button class="ctrl-btn skip-back" title="Back 5s (Down Arrow)">-5</button>
+        <button class="ctrl-btn skip-fwd" title="Forward 5s (Up Arrow)">+5</button>
+        <span class="time-current">00:00</span>
+        <input type="range" class="progress-bar" min="0" max="1000" value="0" title="Seek">
+        <span class="time-duration">00:00</span>
+        <button class="ctrl-btn speed-btn" title="Playback Speed">1x</button>
+        <button class="ctrl-btn mute-btn" data-icon="(" title="Mute (M)"></button>
+        <button class="ctrl-btn fullscreen-btn" title="Fullscreen">[]</button>
+        <span class="playlist-controls">
+            <select class="playlist-select" title="Select Playlist"></select>
+            <button class="ctrl-btn snippet-prev" title="Previous snippet ([)">&lt;</button>
+            <select class="snippet-select" title="Current Snippet"></select>
+            <button class="ctrl-btn snippet-next" title="Next snippet (])">&gt;</button>
+        </span>
+        <div class="video-picker">
+            <button type="button" class="video-picker-toggle" title="Select Video">
+                <span class="video-picker-label">—</span>
+                <span class="video-picker-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="video-picker-panel" hidden></div>
+        </div>
+    </div>
+</body>
+</html>

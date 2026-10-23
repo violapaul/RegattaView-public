@@ -1,0 +1,272 @@
+/*
+ * Instrument overlay + media-control styles, shared by sailview.html and
+ * tracks.html. The original home of these rules was video.css; they were
+ * extracted here so tracks.html can reuse the exact button + datablock
+ * styling without dragging in 1000+ lines of viewer-only CSS.
+ *
+ * The page-level CSS for each consumer (video.css for sailview, tracks.css
+ * for tracks) is expected to override `.info` positioning to suit the page.
+ */
+
+:root {
+  --color-bg: rgba(0, 0, 0, 0.85);
+  --color-bg-light: rgba(255, 255, 255, 0.1);
+  --color-bg-hover: rgba(255, 255, 255, 0.25);
+  --color-bg-active: rgba(255, 255, 255, 0.35);
+  --color-text: #fff;
+  --color-text-shadow: black;
+  --color-accent: rgb(255, 8, 8);
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+}
+
+@font-face {
+  font-family: 'HeydingsControlsRegular';
+  src: url('../assets/fonts/heydings_controls-webfont.eot');
+  src: url('../assets/fonts/heydings_controls-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../assets/fonts/heydings_controls-webfont.woff') format('woff'),
+       url('../assets/fonts/heydings_controls-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/* ---- Instrument datablock ---------------------------------------------- */
+
+.info {
+  width: 320px;
+  font-size: 23px;
+  font-family: monospace;
+  text-shadow: 1px 1px 0px black;
+  color: white;
+  flex: 5;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  text-align: left;
+  z-index: 2;
+}
+
+.data {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  text-align: left;
+  z-index: 2;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.strip {
+  position: static;
+  width: 70%;
+  right: 0px;
+  text-align: right;
+}
+
+.data_value {
+  position: relative;
+  text-align: right;
+  width: 80px;
+}
+
+.sparkline {
+  position: absolute;
+  right: 0;
+  top: 0;
+  stroke: rgb(22, 20, 20);
+  fill: rgba(255, 255, 255, .3);
+  width: 70%;
+  height: 100%;
+}
+
+.data-select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: monospace;
+  font-size: 23px;
+  text-shadow: 1px 1px 0px black;
+  cursor: pointer;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  max-width: 30%;
+}
+
+.data-select option {
+  background: rgba(0, 0, 0, 0.92);
+  color: white;
+  text-shadow: none;
+  font-size: 16px;
+}
+
+.data-remove {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: white;
+  font-size: 13px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 4;
+  transition: opacity 0.15s;
+}
+
+.data:hover .data-remove {
+  opacity: 0.9;
+}
+
+.data-add-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: center;
+  text-shadow: 1px 1px 0px black;
+  transition: background 0.15s, color 0.15s;
+}
+
+.data-add-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+
+/* ---- Media controls bar ------------------------------------------------ */
+
+.controls-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg);
+  border-radius: var(--border-radius-lg);
+  z-index: 100;
+  max-width: calc(100vw - 32px);
+  backdrop-filter: blur(10px);
+  transition: opacity var(--transition-normal);
+}
+
+.controls-bar:hover {
+  opacity: 1;
+}
+
+.ctrl-btn {
+  background: var(--color-bg-light);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-size: 14px;
+  padding: var(--spacing-sm) 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  min-width: 40px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn:hover {
+  background: var(--color-bg-hover);
+}
+
+.ctrl-btn:active {
+  background: var(--color-bg-active);
+}
+
+.ctrl-btn:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.play-btn:before {
+  font-family: HeydingsControlsRegular;
+  font-size: 18px;
+  content: attr(data-icon);
+}
+
+.time-current, .time-duration {
+  color: #fff;
+  font-family: monospace;
+  font-size: 13px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.progress-bar::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.speed-btn {
+  font-weight: bold;
+  min-width: 45px;
+}

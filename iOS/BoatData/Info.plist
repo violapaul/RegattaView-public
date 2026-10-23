@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Required to display WiFi network name for verifying connection to BoatBrain.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string></string>
+		<string>processing</string>
+		<string>fetch</string>
+		<string>external-accessory</string>
+	</array>
+</dict>
+</plist>

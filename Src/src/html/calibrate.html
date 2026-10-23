@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dual Fisheye Calibration</title>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+</head>
+<body>
+    <div id="layout">
+        <canvas id="preview"></canvas>
+        <div id="sidebar">
+            <h1>Local Calibration</h1>
+            <div id="viewStatus">
+                <span>FOV:</span>
+                <span id="fovReadout">180.0 deg</span>
+                <span id="viewHint">(Wheel zoom, R reset, F flip)</span>
+            </div>
+            <div id="sourceStatus">No source loaded.</div>
+            <div class="button-row">
+                <button id="loadSourceBtn">Load Video/Image</button>
+                <button id="togglePlayBtn">Play/Pause</button>
+            </div>
+            <div class="button-row">
+                <button id="resetViewBtn">Reset View</button>
+                <button id="flipViewBtn">Flip View</button>
+            </div>
+            <div class="button-row">
+                <button id="importPresetBtn">Import Preset</button>
+                <button id="exportPresetBtn">Export Preset</button>
+            </div>
+            <div class="button-row">
+                <button id="resetPresetBtn">Reset Defaults</button>
+                <button id="seamDebugBtn">Toggle Seam Debug</button>
+            </div>
+            <input type="file" id="sourceFileInput" accept="video/*,image/*" hidden>
+            <input type="file" id="presetFileInput" accept="application/json,.json" hidden>
+            <div id="controls"></div>
+        </div>
+    </div>
+</body>
+</html>
